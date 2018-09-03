@@ -31,7 +31,7 @@ public class UserService {
 
     public User createUser(User user){
         if(user.getUsername() == null || user.getPassword() == null || user.getEmail() == null) throw new BadRequestException("You cannot register with these values.");
-        if(!user.getEmail().matches("^\\w+@[a-zA-Z_]+?\\.[a-zA-Z]{2,3}$")) throw new BadRequestException("Email address does not appear valid");
+        if(!user.getEmail().matches("((\\w|(\\.\\w))+@+(\\w(\\.\\w)?)+\\.+(com|edu|net))")) throw new BadRequestException("Email address does not appear valid");
         if(userRepo.findByUsername(user.getUsername()) != null) throw new BadRequestException("Username is already registered");
         if(userRepo.findByEmail(user.getEmail().toUpperCase()) != null) throw new BadRequestException("Email address is already registered");
         user.setEmail(user.getEmail().toUpperCase());

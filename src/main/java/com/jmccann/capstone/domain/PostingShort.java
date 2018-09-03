@@ -1,5 +1,6 @@
 package com.jmccann.capstone.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.jmccann.capstone.config.View;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
@@ -28,5 +29,7 @@ public class PostingShort {
     private User user;
 
     String message;
+
+    @JsonFormat(pattern = "MM-dd-YYYY")
     Date createDate;
 }

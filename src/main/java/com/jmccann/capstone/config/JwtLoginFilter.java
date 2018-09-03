@@ -23,12 +23,12 @@ import java.util.Collection;
 
 public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
 
-    @Autowired
     private UserRepo userRepo;
 
-    public JwtLoginFilter(String url, AuthenticationManager authManager) {
+    public JwtLoginFilter(String url, AuthenticationManager authManager, UserRepo repo) {
         super(new AntPathRequestMatcher(url));
         setAuthenticationManager(authManager);
+        this.userRepo = repo;
     }
 
     @Override
@@ -56,7 +56,9 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
 
     @Override
     protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain, Authentication auth) throws IOException, ServletException {
+        System.out.println("test");
+        User user = userRepo.findByUsername(auth.getName());
         TokenAuthenticationService
-                .addAuthentication(res, auth.getName(), auth.getAuthorities());
+                .addAuthentication(res, user);
     }
 }

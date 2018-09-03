@@ -1,5 +1,6 @@
 package com.jmccann.capstone.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
@@ -24,5 +25,7 @@ public class TopicShort {
     private User user;
 
     private String topicName;
+
+    @JsonFormat(pattern = "MM-dd-YYYY")
     private Date createDate;
 }

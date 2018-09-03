@@ -1,5 +1,6 @@
 package com.jmccann.capstone.config;
 
+import com.jmccann.capstone.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -17,10 +18,12 @@ import javax.sql.DataSource;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final DataSource dataSource;
+    private final UserRepo userRepo;
 
     @Autowired
-    public WebSecurityConfig(DataSource dataSource) {
+    public WebSecurityConfig(DataSource dataSource, UserRepo repo) {
         this.dataSource = dataSource;
+        this.userRepo = repo;
     }
 
     @Override
@@ -38,7 +41,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/post/**").permitAll()
                 .antMatchers("*/**").permitAll().anyRequest().authenticated()
                 .and()
-                .addFilterBefore(new JwtLoginFilter("/login", authenticationManager()),
+                .addFilterBefore(new JwtLoginFilter("/login", authenticationManager(), userRepo),
                         UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new JwtAuthenticationFilter(),
                         UsernamePasswordAuthenticationFilter.class);

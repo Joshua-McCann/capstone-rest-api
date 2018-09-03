@@ -32,7 +32,7 @@ public class User {
 
     @Column(nullable = false)
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    @JsonFormat(pattern = "dd-MM-YYYY")
+    @JsonFormat(pattern = "MM-dd-yyyy")
     private Date joinDate;
 
     @Column(nullable = false)

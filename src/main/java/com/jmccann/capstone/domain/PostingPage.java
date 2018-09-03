@@ -3,13 +3,14 @@ package com.jmccann.capstone.domain;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.hateoas.ResourceSupport;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
 
-public class PostingPage implements Page<PostingShort> {
+public class PostingPage extends ResourceSupport implements Page<PostingShort> {
 
     private Page<Posting> postingPage;
     private List<PostingShort> postingShortList;

@@ -13,8 +13,6 @@ import org.springframework.stereotype.Component;
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
-import java.util.List;
 
 @Profile("seed")
 @Component
@@ -37,7 +35,7 @@ public class SeedData {
         User user = new User();
         user.setUsername("McCanicle");
         user.setPassword(passwordEncoder.encode("TempPassword"));
-        user.setEmail("JMCSQUIGGLE@GMAIL.COM");
+        user.setEmail("jmcsquiggle@gmail.com");
         user.setEnabled(true);
         user.setJoinDate(Date.from(LocalDateTime.now().toInstant(ZoneOffset.ofHours(0))));
         user.setRole(Role.ADMIN.name());
