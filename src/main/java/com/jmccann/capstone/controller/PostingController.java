@@ -1,13 +1,11 @@
 package com.jmccann.capstone.controller;
 
-import com.jmccann.capstone.domain.PostingPage;
-import com.jmccann.capstone.domain.TopicPage;
+import com.jmccann.capstone.domain.Posting;
+import com.jmccann.capstone.domain.Pageable.PostingPage;
+import com.jmccann.capstone.domain.PostingShort;
 import com.jmccann.capstone.service.PostingService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -23,5 +21,10 @@ public class PostingController {
     @GetMapping()
     public PostingPage getPostings(@RequestParam int page, @RequestParam int perPage, @RequestParam UUID topicId){
         return postingService.getPostings(page, perPage, topicId);
+    }
+
+    @PostMapping()
+    public PostingShort savePosting(@RequestParam UUID topicId, @RequestBody Posting posting) {
+        return postingService.savePosting(posting, topicId);
     }
 }

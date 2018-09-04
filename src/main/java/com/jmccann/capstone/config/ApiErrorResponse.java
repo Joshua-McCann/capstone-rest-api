@@ -1,4 +1,4 @@
-package com.jmccann.capstone.controller;
+package com.jmccann.capstone.config;
 
 import lombok.Data;
 import org.springframework.http.HttpStatus;
@@ -7,13 +7,13 @@ import org.springframework.http.HttpStatus;
 public class ApiErrorResponse {
 
     private HttpStatus status;
-    private String error_code;
+    private int error_code;
     private String message;
     private String detail;
 
     public static final class ApiErrorResponseBuilder {
         private HttpStatus status;
-        private String error_code;
+        private int error_code;
         private String message;
         private String detail;
 
@@ -29,7 +29,7 @@ public class ApiErrorResponse {
             return this;
         }
 
-        public ApiErrorResponseBuilder withError_code(String error_code) {
+        public ApiErrorResponseBuilder withError_code(int error_code) {
             this.error_code = error_code;
             return this;
         }

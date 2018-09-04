@@ -1,4 +1,4 @@
-package com.jmccann.capstone.controller;
+package com.jmccann.capstone.config;
 
 import com.jmccann.capstone.exceptions.BadRequestException;
 import lombok.extern.log4j.Log4j2;
@@ -21,7 +21,7 @@ public class CustomExceptionHandler {
                 .ApiErrorResponseBuilder()
                 .withDetail(exception.getMessage())
                 .withStatus(HttpStatus.BAD_REQUEST)
-                .withError_code(HttpStatus.BAD_REQUEST.name())
+                .withError_code(HttpStatus.BAD_REQUEST.value())
                 .withMessage(exception.getLocalizedMessage())
                 .build();
 

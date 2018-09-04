@@ -1,6 +1,8 @@
-package com.jmccann.capstone.domain;
+package com.jmccann.capstone.domain.Pageable;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.jmccann.capstone.domain.Topic;
+import com.jmccann.capstone.domain.TopicShort;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -87,12 +89,10 @@ public class TopicPage extends ResourceSupport implements Page<TopicShort> {
     }
 
     private void addSelfLink() {
-        if(topicPage.hasPrevious()) {
-            Link link = buildPageLink(topicPage.getNumber(),
-                    topicPage.getSize(),
-                    Link.REL_SELF);
-            super.add(link);
-        }
+        Link link = buildPageLink(topicPage.getNumber(),
+                topicPage.getSize(),
+                Link.REL_SELF);
+        super.add(link);
     }
 
     @JsonIgnore

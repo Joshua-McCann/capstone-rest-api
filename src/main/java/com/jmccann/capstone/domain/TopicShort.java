@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.SafeHtml;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -24,6 +25,7 @@ public class TopicShort {
     @JoinColumn(name = "userId")
     private User user;
 
+    @SafeHtml
     private String topicName;
 
     @JsonFormat(pattern = "MM-dd-YYYY")

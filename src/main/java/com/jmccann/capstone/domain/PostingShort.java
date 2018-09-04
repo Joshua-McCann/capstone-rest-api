@@ -3,10 +3,10 @@ package com.jmccann.capstone.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.jmccann.capstone.config.View;
 import com.fasterxml.jackson.annotation.JsonView;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.SafeHtml;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -28,6 +28,7 @@ public class PostingShort {
     @JsonView(View.External.class)
     private User user;
 
+    @SafeHtml
     String message;
 
     @JsonFormat(pattern = "MM-dd-YYYY")
