@@ -4,7 +4,6 @@ import com.jmccann.capstone.domain.User;
 import com.jmccann.capstone.repository.UserRepo;
 import com.jmccann.capstone.service.TokenAuthenticationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -14,33 +13,27 @@ import org.springframework.security.web.authentication.AbstractAuthenticationPro
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
+class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
 
-    private UserRepo userRepo;
+    private final UserRepo userRepo;
 
-    public JwtLoginFilter(String url, AuthenticationManager authManager, UserRepo repo) {
-        super(new AntPathRequestMatcher(url));
+    JwtLoginFilter(AuthenticationManager authManager, UserRepo repo) {
+        super(new AntPathRequestMatcher("/login"));
         setAuthenticationManager(authManager);
         this.userRepo = repo;
     }
 
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res) throws AuthenticationException, IOException, ServletException {
+    public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res) throws AuthenticationException, IOException {
         User creds = new ObjectMapper()
                 .readValue(req.getInputStream(), User.class);
-        GrantedAuthority authority = new GrantedAuthority() {
-            @Override
-            public String getAuthority() {
-                return creds.getRole();
-            }
-        };
+        GrantedAuthority authority = (GrantedAuthority) creds::getRole;
         Collection<GrantedAuthority> authorityCollection = new ArrayList<>();
         authorityCollection.add(authority);
 
@@ -55,7 +48,7 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
     }
 
     @Override
-    protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain, Authentication auth) throws IOException, ServletException {
+    protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain, Authentication auth) {
         User user = userRepo.findByUsername(auth.getName());
         TokenAuthenticationService
                 .addAuthentication(res, user);

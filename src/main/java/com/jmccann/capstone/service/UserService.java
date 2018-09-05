@@ -8,7 +8,6 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.sql.Date;
 import java.time.LocalDateTime;
@@ -29,7 +28,7 @@ public class UserService {
         return userRepo.findByUsername(username);
     }
 
-    public User createUser(User user){
+    public void createUser(User user){
         if(user.getUsername() == null || user.getPassword() == null || user.getEmail() == null) throw new BadRequestException("You cannot register with these values.");
         if(!user.getEmail().matches("((\\w|(\\.\\w))+@+(\\w(\\.\\w)?)+\\.+(com|edu|net))")) throw new BadRequestException("Email address does not appear valid");
         if(userRepo.findByUsername(user.getUsername()) != null) throw new BadRequestException("Username is already registered");
@@ -39,6 +38,6 @@ public class UserService {
         user.setEnabled(true);
         user.setJoinDate(Date.from(LocalDateTime.now().toInstant(ZoneOffset.ofHours(0))));
         user.setRole(Role.USER.name());
-        return userRepo.save(user);
+        userRepo.save(user);
     }
 }

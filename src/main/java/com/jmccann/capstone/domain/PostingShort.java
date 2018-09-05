@@ -1,8 +1,6 @@
 package com.jmccann.capstone.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.jmccann.capstone.config.View;
-import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
@@ -25,7 +23,6 @@ public class PostingShort {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "userId")
-    @JsonView(View.External.class)
     private User user;
 
     @SafeHtml

@@ -10,6 +10,7 @@ import org.springframework.hateoas.Link;
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -17,8 +18,9 @@ import java.util.function.Function;
 
 public class PostingPage extends ResourceSupport implements Page<PostingShort> {
 
-    private Page<Posting> postingPage;
-    private List<PostingShort> postingShortList;
+    private final Page<Posting> postingPage;
+
+    private final List<PostingShort> postingShortList;
 
     public PostingPage(Page<Posting> postingPage) {
         this.postingPage = postingPage;
@@ -44,8 +46,7 @@ public class PostingPage extends ResourceSupport implements Page<PostingShort> {
                 .queryParam("perPage", size)
                 .build()
                 .toUriString();
-        Link link = new Link(path, rel);
-        return link;
+        return new Link(path, rel);
     }
 
     private ServletUriComponentsBuilder createBuilder() {
@@ -109,7 +110,8 @@ public class PostingPage extends ResourceSupport implements Page<PostingShort> {
 
     @JsonIgnore
     @Override
-    public <U> Page<U> map(Function<? super PostingShort, ? extends U> function) {
+    @NotNull
+    public <U> Page<U> map(@NotNull Function<? super PostingShort, ? extends U> function) {
         return postingPage.map(function);
     }
 
@@ -132,6 +134,7 @@ public class PostingPage extends ResourceSupport implements Page<PostingShort> {
     }
 
     @Override
+    @NotNull
     public List<PostingShort> getContent() {
         return postingShortList;
     }
@@ -144,6 +147,7 @@ public class PostingPage extends ResourceSupport implements Page<PostingShort> {
 
     @JsonIgnore
     @Override
+    @NotNull
     public Sort getSort() {
         return postingPage.getSort();
     }
@@ -174,17 +178,20 @@ public class PostingPage extends ResourceSupport implements Page<PostingShort> {
 
     @JsonIgnore
     @Override
+    @NotNull
     public Pageable nextPageable() {
         return postingPage.nextPageable();
     }
 
     @JsonIgnore
     @Override
+    @NotNull
     public Pageable previousPageable() {
         return postingPage.previousPageable();
     }
 
     @Override
+    @NotNull
     public Iterator<PostingShort> iterator() {
         return postingShortList.iterator();
     }

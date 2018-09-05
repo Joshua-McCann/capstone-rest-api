@@ -37,8 +37,7 @@ public class TopicService {
     public TopicPage getTopics(int page, int perPage) {
         Pageable pageable = PageRequest.of(page, perPage, new Sort(Sort.Direction.DESC, "createDate"));
         Page<Topic> topics = topicRepo.findAll(pageable);
-        TopicPage topicPage = new TopicPage(topics);
-        return topicPage;
+        return new TopicPage(topics);
     }
 
     public TopicShort saveTopic(Topic topic){

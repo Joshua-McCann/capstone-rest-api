@@ -10,6 +10,7 @@ import org.springframework.hateoas.Link;
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -17,8 +18,8 @@ import java.util.function.Function;
 
 public class TopicPage extends ResourceSupport implements Page<TopicShort> {
 
-    private Page<Topic> topicPage;
-    private List<TopicShort> topicShortList;
+    private final Page<Topic> topicPage;
+    private final List<TopicShort> topicShortList;
 
     public TopicPage(Page<Topic> topicPage) {
         this.topicPage = topicPage;
@@ -44,8 +45,7 @@ public class TopicPage extends ResourceSupport implements Page<TopicShort> {
                 .queryParam("perPage", size)
                 .build()
                 .toUriString();
-        Link link = new Link(path, rel);
-        return link;
+        return new Link(path, rel);
     }
 
     private ServletUriComponentsBuilder createBuilder() {
@@ -109,7 +109,8 @@ public class TopicPage extends ResourceSupport implements Page<TopicShort> {
 
     @JsonIgnore
     @Override
-    public <U> Page<U> map(Function<? super TopicShort, ? extends U> function) {
+    @NotNull
+    public <U> Page<U> map(@NotNull Function<? super TopicShort, ? extends U> function) {
         return topicPage.map(function);
     }
 
@@ -132,6 +133,7 @@ public class TopicPage extends ResourceSupport implements Page<TopicShort> {
     }
 
     @Override
+    @NotNull
     public List<TopicShort> getContent() {
         return topicShortList;
     }
@@ -144,6 +146,7 @@ public class TopicPage extends ResourceSupport implements Page<TopicShort> {
 
     @JsonIgnore
     @Override
+    @NotNull
     public Sort getSort() {
         return topicPage.getSort();
     }
@@ -174,17 +177,20 @@ public class TopicPage extends ResourceSupport implements Page<TopicShort> {
 
     @JsonIgnore
     @Override
+    @NotNull
     public Pageable nextPageable() {
         return topicPage.nextPageable();
     }
 
     @JsonIgnore
     @Override
+    @NotNull
     public Pageable previousPageable() {
         return topicPage.previousPageable();
     }
 
     @Override
+    @NotNull
     public Iterator<TopicShort> iterator() {
         return topicShortList.iterator();
     }

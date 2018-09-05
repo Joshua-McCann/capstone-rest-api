@@ -12,7 +12,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
-public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {

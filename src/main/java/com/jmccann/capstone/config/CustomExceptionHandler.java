@@ -25,7 +25,7 @@ public class CustomExceptionHandler {
                 .withMessage(exception.getLocalizedMessage())
                 .build();
 
-        return new ResponseEntity(response, response.getStatus());
+        return new ResponseEntity<>(response, response.getStatus());
     }
 
 }
