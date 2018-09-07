@@ -89,10 +89,7 @@ public class TopicPage extends ResourceSupport implements Page<TopicShort> {
     }
 
     private void addSelfLink() {
-        Link link = buildPageLink(topicPage.getNumber(),
-                topicPage.getSize(),
-                Link.REL_SELF);
-        super.add(link);
+        super.add(new Link(ServletUriComponentsBuilder.fromCurrentRequest().toUriString(), Link.REL_SELF));
     }
 
     @JsonIgnore

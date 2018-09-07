@@ -36,7 +36,7 @@ public class PostingService {
     public PostingPage getPostings(int page, int perPage, UUID topicId) {
         Pageable pageable = PageRequest.of(page, perPage, new Sort(Sort.Direction.ASC, "createDate"));
         Page<Posting> postings = postingRepo.findAllByTopic(topicRepo.getOne(topicId), pageable);
-        return new PostingPage(postings);
+        return new PostingPage(postings, topicId);
     }
 
     public PostingShort savePosting(Posting posting, UUID topicId) {

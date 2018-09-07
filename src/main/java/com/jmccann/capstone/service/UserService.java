@@ -1,5 +1,6 @@
 package com.jmccann.capstone.service;
 
+import com.jmccann.capstone.domain.PasswordUpdate;
 import com.jmccann.capstone.domain.Role;
 import com.jmccann.capstone.domain.User;
 import com.jmccann.capstone.exceptions.BadRequestException;
@@ -8,10 +9,12 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import sun.security.util.Password;
 
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.UUID;
 
 @Service
 @Log4j2
@@ -39,5 +42,15 @@ public class UserService {
         user.setJoinDate(Date.from(LocalDateTime.now().toInstant(ZoneOffset.ofHours(0))));
         user.setRole(Role.USER.name());
         userRepo.save(user);
+    }
+
+    public User updateUser(UUID userId, PasswordUpdate passwordUpdate) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        User user = userRepo.getOne(userId);
+        if (passwordEncoder.matches(passwordUpdate.getOldPassword(), user.getPassword())){
+            user.setPassword(passwordEncoder.encode(passwordUpdate.getNewPassword()));
+            return userRepo.save(user);
+        }
+        else throw new BadRequestException("Old password is incorrect");
     }
 }

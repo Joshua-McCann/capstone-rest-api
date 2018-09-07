@@ -14,16 +14,18 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 import java.util.function.Function;
 
 public class PostingPage extends ResourceSupport implements Page<PostingShort> {
 
     private final Page<Posting> postingPage;
-
     private final List<PostingShort> postingShortList;
+    private final UUID topicId;
 
-    public PostingPage(Page<Posting> postingPage) {
+    public PostingPage(Page<Posting> postingPage, UUID topicId) {
         this.postingPage = postingPage;
+        this.topicId = topicId;
         postingShortList = new ArrayList<>();
         postingPage.forEach(posting -> {
             PostingShort postingShort = new PostingShort();
@@ -44,6 +46,7 @@ public class PostingPage extends ResourceSupport implements Page<PostingShort> {
         String path = createBuilder()
                 .queryParam("page", page)
                 .queryParam("perPage", size)
+                .queryParam("topicId", topicId)
                 .build()
                 .toUriString();
         return new Link(path, rel);
@@ -90,10 +93,7 @@ public class PostingPage extends ResourceSupport implements Page<PostingShort> {
     }
 
     private void addSelfLink() {
-        Link link = buildPageLink(postingPage.getNumber(),
-                    postingPage.getSize(),
-                    Link.REL_SELF);
-        super.add(link);
+        super.add(new Link(ServletUriComponentsBuilder.fromCurrentRequest().toUriString(), Link.REL_SELF));
     }
 
     @JsonIgnore
